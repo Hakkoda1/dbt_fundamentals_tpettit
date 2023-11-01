@@ -1,4 +1,14 @@
-select
+with
+
+source as (
+
+    select * from {{ source('stripe', 'payment') }}
+
+),
+
+stage as(
+
+    select
     orderid as order_id,
     id as payment_id,
     amount / 100 as amount,
@@ -7,4 +17,9 @@ select
     status
 
 
-from stripe.payment
+from source
+
+)
+
+
+select * from stage
